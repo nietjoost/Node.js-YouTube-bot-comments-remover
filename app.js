@@ -2,12 +2,9 @@ const fs = require("fs");
 const express = require("express");
 const multer = require("multer");
 const OAuth2Data = require("./credentials.json");
-
-const minimumCount = 2;
-
 const { google } = require("googleapis");
 
-const app = express();
+const minimumCount = 2;
 
 const CLIENT_ID = OAuth2Data.web.client_id;
 const CLIENT_SECRET = OAuth2Data.web.client_secret;
@@ -18,31 +15,19 @@ const oAuth2Client = new google.auth.OAuth2(
   CLIENT_SECRET,
   REDIRECT_URL
 );
-var authed = false;
-
-// If modifying these scopes, delete token.json.
 const SCOPES =
   "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/youtube.force-ssl";
+var authed = false;
 
+const app = express();
 app.set("view engine", "ejs");
-
-var Storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, "./videos");
-  },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + "_" + Date.now() + "_" + file.originalname);
-  },
-});
 
 app.get("/", (req, res) => {
   if (!authed) {
-    // Generate an OAuth URL and redirect there
     var url = oAuth2Client.generateAuthUrl({
       access_type: "offline",
       scope: SCOPES,
     });
-    console.log(url);
     res.render("index", { url: url });
   } else {
     var oauth2 = google.oauth2({
@@ -50,16 +35,14 @@ app.get("/", (req, res) => {
       version: "v2",
     });
     oauth2.userinfo.get(function (err, response) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.redirect("/upload");
+      if (!err) {
+        res.redirect("/bot");
       }
     });
   }
 });
 
-app.get("/upload", async (req, res) => {
+app.get("/bot", async (req, res) => {
   const youtube = google.youtube({ version: "v3", auth: oAuth2Client });
 
   // Get uploads playlist by channel ID.
@@ -116,6 +99,7 @@ app.get("/upload", async (req, res) => {
       counts[x] = (counts[x] || 0) + 1;
     });
 
+  const removedCount = 0;
   for (const key in counts) {
     if (counts[key] >= minimumCount) {
       console.log(
@@ -127,13 +111,16 @@ app.get("/upload", async (req, res) => {
           const commentDelete = await youtube.comments.delete({
             id: data.commentId,
           });
+          removedCount++;
           console.log(commentDelete);
         }
       }
     }
   }
-
-  res.send(parentComments);
+  res.render("success", {
+    url: "http://localhost:5000/logout",
+    removed: removedCount,
+  });
 });
 
 app.get("/logout", (req, res) => {
@@ -148,14 +135,11 @@ app.get("/google/callback", function (req, res) {
     oAuth2Client.getToken(code, function (err, tokens) {
       if (err) {
         console.log("Error authenticating");
-        console.log(err);
       } else {
-        console.log("Successfully authenticated");
-        console.log(tokens);
         oAuth2Client.setCredentials(tokens);
 
         authed = true;
-        res.redirect("/upload");
+        res.redirect("/bot");
       }
     });
   }
