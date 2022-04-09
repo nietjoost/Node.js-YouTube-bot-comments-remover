@@ -15,3 +15,15 @@
 <i>A GIF that shows how it works.</i>
 
 </div>
+
+### Contents:
+  - [Categories](#categories)
+      - What is YouTube bots comments remover?
+
+
+## Categories
+
+#### What is YouTube bots comments remover?
+
+Youtube bots comments remover is a webapplication that removes unwanted comments from the latest uploaded Youtube Video from the loged-in user.
+
