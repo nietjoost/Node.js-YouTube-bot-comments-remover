@@ -21,6 +21,7 @@ var authed = false;
 
 const app = express();
 app.set("view engine", "ejs");
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   if (!authed) {
@@ -43,84 +44,98 @@ app.get("/", (req, res) => {
 });
 
 app.get("/bot", async (req, res) => {
-  const youtube = google.youtube({ version: "v3", auth: oAuth2Client });
+  try {
+    const youtube = google.youtube({ version: "v3", auth: oAuth2Client });
 
-  // Get uploads playlist by channel ID.
-  const response = await youtube.channels.list({
-    part: "snippet,contentDetails",
-    id: "UC2VTWrVnZIzWXH2wkj8sAQA",
-  });
-  const uploadsId =
-    response.data.items[0].contentDetails.relatedPlaylists.uploads;
+    // Get uploads playlist by channel ID.
+    const response = await youtube.channels.list({
+      part: "snippet,contentDetails",
+      id: "UC2VTWrVnZIzWXH2wkj8sAQA",
+    });
 
-  // Get latest video by playlist ID.
-  const videos = await youtube.playlistItems.list({
-    part: "snippet",
-    playlistId: uploadsId,
-    maxResults: 1,
-  });
-  const videoById = videos.data.items[0].snippet.resourceId.videoId;
+    const uploadsId =
+      response.data.items[0].contentDetails.relatedPlaylists.uploads;
 
-  // Get comments by video ID.
-  const comments = await youtube.commentThreads.list({
-    part: "snippet",
-    videoId: videoById,
-    textFormat: "plainText",
-  });
-
-  // Create an array with parent comments ID's.
-  const parentCommentsId = [];
-  comments.data.items.forEach((element) => parentCommentsId.push(element.id));
-
-  // Get list of replies from parent comment ID's.
-  const parentComments = new Array();
-  for (id of parentCommentsId) {
-    const comments = await youtube.comments.list({
+    // Get latest video by playlist ID.
+    const videos = await youtube.playlistItems.list({
       part: "snippet",
-      parentId: id,
+      playlistId: uploadsId,
+      maxResults: 1,
+    });
+    const videoById = videos.data.items[0].snippet.resourceId.videoId;
+
+    // Get comments by video ID.
+    const comments = await youtube.commentThreads.list({
+      part: "snippet",
+      videoId: videoById,
       textFormat: "plainText",
     });
 
-    // Retrieve all original text from comments.
-    comments.data.items.forEach((data) =>
-      parentComments.push({
-        channelOwner: data.snippet.authorDisplayName,
-        commentId: data.id,
-        plainText: data.snippet.textOriginal,
-      })
-    );
-  }
+    // Create an array with parent comments ID's.
+    const parentCommentsId = [];
+    comments.data.items.forEach((element) => parentCommentsId.push(element.id));
 
-  // Calculate how many times the message is send.
-  const counts = {};
-  parentComments
-    .map((value) => value.plainText)
-    .forEach((x) => {
-      counts[x] = (counts[x] || 0) + 1;
-    });
+    // Get list of replies from parent comment ID's.
+    const parentComments = new Array();
+    for (id of parentCommentsId) {
+      const comments = await youtube.comments.list({
+        part: "snippet",
+        parentId: id,
+        textFormat: "plainText",
+      });
 
-  const removedCount = 0;
-  for (const key in counts) {
-    if (counts[key] >= minimumCount) {
-      console.log(
-        `Message:\x1b[32m ${key}\x1b[0m was found\x1b[31m ${counts[key]} \x1b[0m`
+      // Retrieve all original text from comments.
+      comments.data.items.forEach((data) =>
+        parentComments.push({
+          channelOwner: data.snippet.authorDisplayName,
+          commentId: data.id,
+          plainText: data.snippet.textOriginal,
+        })
       );
+    }
 
-      for (data of parentComments) {
-        if (data.plainText === key) {
-          const commentDelete = await youtube.comments.delete({
-            id: data.commentId,
-          });
-          removedCount++;
-          console.log(commentDelete);
+    // Calculate how many times the message is send.
+    const counts = {};
+    parentComments
+      .map((value) => value.plainText)
+      .forEach((x) => {
+        counts[x] = (counts[x] || 0) + 1;
+      });
+
+    var removedCount = 0;
+    var cannotDelete = [];
+    for (const key in counts) {
+      if (counts[key] >= minimumCount) {
+        console.log(
+          `Message:\x1b[32m ${key}\x1b[0m was found\x1b[31m ${counts[key]}\x1b[0m times.`
+        );
+
+        for (data of parentComments) {
+          if (data.plainText === key) {
+            const commentDelete = await youtube.comments.delete({
+              id: data.commentId,
+            });
+            if (commentDelete.status == 204) {
+              removedCount++;
+            } else {
+              cannotDelete.push(data);
+            }
+          }
         }
       }
     }
+
+    res.render("success", {
+      url: "http://localhost:5000/logout",
+      removed: removedCount,
+      notRemoved: cannotDelete,
+    });
+  } catch (error) {
+    res.render("error", {
+      url: "http://localhost:5000/logout",
+      error: error,
+    });
   }
-  res.render("success", {
-    url: "http://localhost:5000/logout",
-    removed: removedCount,
-  });
 });
 
 app.get("/logout", (req, res) => {
