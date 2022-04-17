@@ -1,5 +1,7 @@
 <h1 align="center">Node.js YouTube bots comments remover</h1>
 
+A Node.js application for the webbrowser that let's you remove unwanted comments on your own latest YouTube video. After setting up the project, it is only a few clicks away to remove unwanted comments on your own latest video.
+
 <div align="center">
 <br>
   <a href="https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/stargazers"><img src="https://img.shields.io/github/stars/nietjoost/Node.js-YouTube-bot-comments-remover" alt="Stars Badge"/></a>
@@ -13,6 +15,9 @@
 ### Contents:
 
 - [Setup](#setup)
+  - [Install independencies](#install-independencies)
+  - [Google credentials.json](#google-credentialsjson)
+  - [Start web app](#start-web-app)
 - [Q&A](#q--a)
   - [What is YouTube bots comments remover?](#what-is-youtube-bots-comments-remover)
   - [Will the Google OAuth 2.0 token be saved?](#will-the-google-oauth-20-token-be-saved)
@@ -21,6 +26,10 @@
   - [Succes page example](#succes-page-example)
 
 ## Setup
+
+#### Install independencies
+#### Google credentials.json
+#### Start web app
 
 ## Q & A
 
