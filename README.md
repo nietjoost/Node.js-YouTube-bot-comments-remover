@@ -28,8 +28,22 @@ A Node.js application for the webbrowser that let's you remove unwanted comments
 ## Setup
 
 #### Install independencies
+The command below needs to be entered in a command line either on Windows or Linux. Only works when you are in the main folder. 
+```
+npm install
+```
+<br />
+
 #### Google credentials.json
+
+<br />
+
 #### Start web app
+Command:
+```
+npm start
+```
+The app will start on the given port. By default it is port 5000. The local url will be http://localhost:5000/.
 
 ## Q & A
 
