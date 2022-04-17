@@ -51,7 +51,7 @@ The app will start on the given port. By default it is port 5000. The local url 
 ## Q & A
 
 #### What is YouTube bots comments remover?
-Youtube bots comments remover is a webapplication that removes unwanted comments from the latest uploaded Youtube Video from the loged-in user.
+Youtube bots comments remover is a webapplication that removes unwanted comments from the latest uploaded YouTube video from the loged-in user.
 
 #### Will the Google OAuth 2.0 token be saved?
 The OAuth 2.0 key, or any data in that matter, will not be saved anywhere. The key is used one time to retrieve the comments to maybe delete them later. You can also check the source code if you do not believe it. 
