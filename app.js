@@ -47,12 +47,18 @@ app.get("/bot", async (req, res) => {
   try {
     const youtube = google.youtube({ version: "v3", auth: oAuth2Client });
 
+    // Get user's channel ID.
+    const channel = await youtube.channels.list({
+      part: "id",
+      mine: true,
+    });
+    const channelId = channel.data.items[0].id;
+
     // Get uploads playlist by channel ID.
     const response = await youtube.channels.list({
       part: "snippet,contentDetails",
-      id: "UC2VTWrVnZIzWXH2wkj8sAQA",
+      id: channelId,
     });
-
     const uploadsId =
       response.data.items[0].contentDetails.relatedPlaylists.uploads;
 

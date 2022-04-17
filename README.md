@@ -25,4 +25,4 @@ Youtube bots comments remover is a webapplication that removes unwanted comments
 ## Screenshots
 
 ![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%201.png)
-![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%203.png)
+![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%202.png)
