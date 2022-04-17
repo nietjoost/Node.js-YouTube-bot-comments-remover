@@ -12,17 +12,30 @@
 
 ### Contents:
 
-- [Categories](#categories)
-  - What is YouTube bots comments remover?
+- [Setup](#setup)
+- [Q&A](#q--a)
+  - [What is YouTube bots comments remover?](#what-is-youtube-bots-comments-remover)
+  - [Will the Google OAuth 2.0 token be saved?](#will-the-google-oauth-20-token-be-saved)
 - [Screenshots](#screenshots)
+  - [Home page example](#home-page-example)
+  - [Succes page example](#succes-page-example)
 
-## Categories
+## Setup
+
+## Q & A
 
 #### What is YouTube bots comments remover?
-
 Youtube bots comments remover is a webapplication that removes unwanted comments from the latest uploaded Youtube Video from the loged-in user.
+
+#### Will the Google OAuth 2.0 token be saved?
+The OAuth 2.0 key, or any data in that matter, will not be saved anywhere. The key is used one time to retrieve the comments to maybe delete them later. You can also check the source code if you do not believe it. 
 
 ## Screenshots
 
+#### Home page example
+
 ![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%201.png)
+
+#### Succes page example
+Succes page that shows how many comments have been removed.
 ![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%202.png)
