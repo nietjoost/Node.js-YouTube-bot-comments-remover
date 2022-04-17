@@ -26,8 +26,8 @@ A Node.js application for the webbrowser that let's you remove unwanted comments
   - [Succes page example](#succes-page-example)
 
 ## Setup
-
 #### Install independencies
+Install the program NPM first. The software can be found here: https://nodejs.org/en/download/. <br>
 The command below needs to be entered in a command line either on Windows or Linux. Only works when you are in the main folder. 
 ```
 npm install
@@ -35,6 +35,7 @@ npm install
 <br />
 
 #### Google credentials.json
+The web app needs a file called ''=credentials.json' in order to work. This file contains personal data from Google.
 
 <br />
 
@@ -45,6 +46,8 @@ npm start
 ```
 The app will start on the given port. By default it is port 5000. The local url will be http://localhost:5000/.
 
+<br />
+
 ## Q & A
 
 #### What is YouTube bots comments remover?
@@ -53,12 +56,11 @@ Youtube bots comments remover is a webapplication that removes unwanted comments
 #### Will the Google OAuth 2.0 token be saved?
 The OAuth 2.0 key, or any data in that matter, will not be saved anywhere. The key is used one time to retrieve the comments to maybe delete them later. You can also check the source code if you do not believe it. 
 
+<br />
+
 ## Screenshots
-
 #### Home page example
-
 ![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%201.png)
 
 #### Succes page example
-Succes page that shows how many comments have been removed.
 ![Screenshot of the website](https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/main/screenshots/Screenshot%202.png)
