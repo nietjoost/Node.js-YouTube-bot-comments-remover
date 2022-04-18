@@ -82,7 +82,7 @@ app.get("/bot", async (req, res) => {
     comments.data.items.forEach((element) => parentCommentsId.push(element.id));
 
     // Get list of replies from parent comment ID's.
-    const parentComments = new Array();
+    const finalComments = new Array();
     for (id of parentCommentsId) {
       const comments = await youtube.comments.list({
         part: "snippet",
@@ -92,7 +92,7 @@ app.get("/bot", async (req, res) => {
 
       // Retrieve all original text from comments.
       comments.data.items.forEach((data) =>
-        parentComments.push({
+        finalComments.push({
           channelOwner: data.snippet.authorDisplayName,
           commentId: data.id,
           plainText: data.snippet.textOriginal,
@@ -102,7 +102,7 @@ app.get("/bot", async (req, res) => {
 
     // Calculate how many times the message is send.
     const counts = {};
-    parentComments
+    finalComments
       .map((value) => value.plainText)
       .forEach((x) => {
         counts[x] = (counts[x] || 0) + 1;
@@ -110,19 +110,21 @@ app.get("/bot", async (req, res) => {
 
     var removedCount = 0;
     var cannotDelete = [];
+    var canDelete = [];
     for (const key in counts) {
       if (counts[key] >= minimumCount) {
         console.log(
           `Message:\x1b[32m ${key}\x1b[0m was found\x1b[31m ${counts[key]}\x1b[0m times.`
         );
 
-        for (data of parentComments) {
+        for (data of finalComments) {
           if (data.plainText === key) {
             const commentDelete = await youtube.comments.delete({
               id: data.commentId,
             });
             if (commentDelete.status == 204) {
               removedCount++;
+              canDelete.push(data);
             } else {
               cannotDelete.push(data);
             }
@@ -135,6 +137,7 @@ app.get("/bot", async (req, res) => {
       url: "http://localhost:5000/logout",
       removed: removedCount,
       notRemoved: cannotDelete,
+      finalComments: canDelete,
     });
   } catch (error) {
     res.render("error", {

@@ -42,10 +42,30 @@
       <div class="col-md-7 p-lg-5 mx-auto my-5">
         <h1 class="display-4 font-weight-normal">Succes!</h1>
         <p class="col-md-6 mx-auto lead font-weight-normal">
-          Removed: <%=removed%>
+          Removed <%=removed%> comments.
         </p>
-        <a href="<%=url%>" class="btn btn-danger">Logout</a>
+        <% if(removed != 0) { %>
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Channel</th>
+              <th scope="col">Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% try { finalComments.forEach((comment,index) => {%>
+            <tr>
+              <th scope="row"><%= index+1 %></th>
+              <td><%=comment.channelOwner %></td>
+              <td><%=comment.plainText %></td>
+            </tr>
+            <% }); } catch (error) {} %>
+          </tbody>
+        </table>
       </div>
+      <% } %>
+      <a href="<%=url%>" class="btn btn-danger">Logout</a>
       <div class="product-device shadow-sm d-none d-md-block"></div>
       <div
         class="product-device product-device-2 shadow-sm d-none d-md-block"
