@@ -28,14 +28,16 @@ A Node.js application for the webbrowser that let's you remove unwanted comments
 ## Setup
 #### Install independencies
 Install the program NPM first. The software can be found here: https://nodejs.org/en/download/. <br>
-The command below needs to be entered in a command line either on Windows or Linux. Only works when you are in the main folder. 
+The command below needs to be entered in a command line either on Windows or Linux. 
 ```
+git clone https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover.git
+cd YouTube bots comments remover
 npm install
 ```
 <br />
 
 #### Google credentials.json
-The web app needs a file called ''=credentials.json' in order to work. This file contains personal data from Google.
+The web app needs a file called 'credentials.json' in order to work. This file contains personal data from Google.
 
 <br />
 
