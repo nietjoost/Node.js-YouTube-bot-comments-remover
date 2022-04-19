@@ -12,7 +12,7 @@ A Node.js application for the webbrowser that let's you remove unwanted comments
   <a href="https://github.com/nietjoost/Node.js-YouTube-bot-comments-remover/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nietjoost/Node.js-YouTube-bot-comments-remover?color=2b9348" alt="License Badge"/></a>
 </div>
 
-### Contents:
+<br />
 
 - [Setup](#setup)
   - [Install independencies](#install-independencies)
@@ -37,16 +37,30 @@ npm install
 <br />
 
 #### Google credentials.json
-The web app needs a file called 'credentials.json' in order to work. This file contains personal data from Google.
+The web app needs a file called 'credentials.json' in order to work. This file contains personal data from Google. Follow the tutorial <a href="https://docs.bettyblocks.com/en/articles/1012838-setting-up-google-oauth-2-0-authentication"> here </a> and use the following default data. (The links below can change depending on the project settings)
+<br />  <br /> 
+Redirect uris:
+```
+1: http://localhost:5000/google/callback
+2: http://localhost:5000
+```
+Javascript origins:
+```
+1: http://localhost:5000
+2: http://localhost
+```
 
 <br />
 
 #### Start web app
-Command:
+The command below needs to be entered in a command line either on Windows or Linux. Note: the command line directory needs to be in the main folder in order to work.
 ```
 npm start
 ```
-The app will start on the given port. By default it is port 5000. The local url will be http://localhost:5000/.
+The app will start on the given port. By default it is port 5000. The local url will be: 
+```
+http://localhost:5000/
+```
 
 <br />
 
